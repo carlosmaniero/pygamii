@@ -11,6 +11,10 @@ To use Audio Library, you need install PyGame http://www.pygame.org/download.sht
 ## Examples
 In examples path, you found Arkanoid Engnine.
 
+### Arkanoid
+![Arkanoid](https://raw.githubusercontent.com/carlosmaniero/pygamii/develop/examples/arkanoid/screenshots/arkanoid-main.png)
+![Arkanoid](https://raw.githubusercontent.com/carlosmaniero/pygamii/develop/examples/arkanoid/screenshots/arkanoid-game.png)
+
 ## Notes
 This is a alpha version, I create it using Python3 and Linux.
 Compatibility errors may occur.
