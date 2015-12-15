@@ -9,7 +9,7 @@ Clone this repository and run setup.py.
 To use Audio Library, you need install PyGame http://www.pygame.org/download.shtml
 
 ## Examples
-In examples path, you will found Arkanoid Engine.
+In examples path, you will found Arkanoid.
 
 ### Arkanoid
 ![Arkanoid](https://raw.githubusercontent.com/carlosmaniero/pygamii/develop/examples/arkanoid/screenshots/arkanoid-main.png)
