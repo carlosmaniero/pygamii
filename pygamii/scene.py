@@ -11,6 +11,9 @@ class BaseScene(object):
     rows = 23
     cols = 80
     blank_char = ' '
+    char = ' '
+    color = None
+    bg_color = None
     playing = False
     objects = []
     actions = []
@@ -59,7 +62,11 @@ class BaseScene(object):
 
     def render(self):
         screen_len = self.rows * self.cols
-        screen = [' '] * screen_len
+        if self.color or self.bg_color:
+            screen = [colored(self.char, self.color, self.bg_color)] * screen_len
+        else:
+            screen = [self.char] * screen_len
+
         total_rows, total_cols = self.get_terminal_size()
 
         for obj in self.objects:
@@ -70,7 +77,7 @@ class BaseScene(object):
                     x = obj.x + j
 
                     if obj.color:
-                        char = colored(char, obj.color)
+                        char = colored(char, obj.color, obj.bg_color)
 
                     position = self.cols * y + x
                     if position >= 0 and position < screen_len:
@@ -101,4 +108,4 @@ class BaseScene(object):
         for action in self.actions:
             action.stop()
 
-        self.clean()
+        #self.clean()

@@ -18,3 +18,18 @@ In examples path, you will found Arkanoid Engine.
 ## Notes
 This is a alpha version, I create it using Python3 and Linux.
 Compatibility errors may occur.
+
+
+# News
+## version 0.0.1.2 - Alpha
+- Add MultipleMoveAction: For control movement
+- Fix Object.colision method
+- Start Flycombat example
+- Add Volume Control support in Audio class
+
+## version 0.0.1 - Alpha
+- Start of project
+
+# TODO for 0.1 version Beta
+- Complete the Flycombat game
+- Documentation

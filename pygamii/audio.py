@@ -34,6 +34,10 @@ if have_pygame:
 
         def stop(self):
             self.song.stop()
+
+        def set_volume(self, volume):
+            self.song.set_volume(volume)
+
 else:
     # Simple Interface to prevent crashs
     class Audio(object):
@@ -50,4 +54,7 @@ else:
             pass
 
         def stop(self):
+            pass
+
+        def set_volume(self, volume):
             pass
