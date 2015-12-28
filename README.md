@@ -19,7 +19,7 @@ Click in the below image and see this in action.
 
 [![Arkanoid Video](http://img.youtube.com/vi/QcgN2pBfaU0/0.jpg)](http://www.youtube.com/watch?v=QcgN2pBfaU0)
 
-To run Arkanoid example, enter in your directory (examples/arkanoid) and run:
+To run Arkanoid example, enter in your directory [examples/arkanoid](examples/arkanoid) and run:
     
     python arkanoid.py
 
