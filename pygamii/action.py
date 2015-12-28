@@ -38,6 +38,12 @@ class Action(threading.Thread):
     def do(self):
         raise NotImplemented
 
+    def on_create(self):
+        pass
+
+    def on_destroy(self):
+        pass
+
 
 class BaseKeyboard(Action):
     def do(self):

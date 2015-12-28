@@ -46,11 +46,14 @@ class BaseScene(object):
         action = action_class(*args, **kwargs)
         self.actions.append(action)
 
+        action.on_create()
+
         if auto_start:
             action.start()
 
     def remove_action(self, action):
         self.actions.remove(action)
+        action.on_destroy()
 
     def clean(self):
         os.system('cls' if os.name == 'nt' else 'clear')
