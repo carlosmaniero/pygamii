@@ -1,6 +1,8 @@
 # PyGamii
 Pygamii is a ascii game engine, created to make games in console.
 
+[![Documentation Status](https://readthedocs.org/projects/pygamii/badge/?version=develop)](http://pygamii.readthedocs.org/en/develop/?badge=develop)
+
 # Docs:
 
 [http://pygamii.readthedocs.org/en/develop/](http://pygamii.readthedocs.org/en/develop/)
