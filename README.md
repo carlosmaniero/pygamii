@@ -1,6 +1,10 @@
 # PyGamii
 Pygamii is a ascii game engine, created to make games in console.
 
+# Docs:
+
+[http://pygamii.readthedocs.org/](http://pygamii.readthedocs.org/)
+
 ## Instalation
 Clone this repository and run setup.py.
 
@@ -33,6 +37,8 @@ Compatibility errors may occur.
 - Add on_create and on_destoy signals on object and action
 - Add gun gift on Flycombat
 - Add video of Arkanoid example (Thank you Yu-Jie Lin)
+- Start Docs
+- fix type error: colision -> collision
 
 ## version 0.0.1.2 - Alpha
 - Add MultipleMoveAction: For control movement
