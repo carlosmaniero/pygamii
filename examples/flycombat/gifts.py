@@ -19,6 +19,7 @@ class Gift(Object):
     def on_colision(self, obj):
         if obj is self.scene.airplane:
             self.apply()
+            self.is_kill = True
 
     def move(self):
         if self.expire_at:
@@ -42,10 +43,30 @@ class LifeGift(Gift):
 
     def apply(self):
         self.scene.airplane.lives += 1
-        self.is_kill = True
 
 
-gifts = [LifeGift]
+class MultipleWeaponGift(Gift):
+    color = 'red'
+    width = 6
+    height = 1
+    expire_at = 3
+    to_render = '\n'.join([
+        '▄︻̷̿┻̿═━一'
+    ])
+
+    def __str__(self):
+        return self.to_render
+
+    def apply(self):
+        from weapon import MultipleWeapon
+        self.scene.airplane.weapon.remove()
+        self.scene.airplane.weapon = MultipleWeapon(
+            self.scene,
+            self.scene.airplane
+        )
+
+
+gifts = [LifeGift, MultipleWeaponGift]
 
 
 def get_gift():

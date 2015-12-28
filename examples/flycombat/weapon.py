@@ -5,7 +5,7 @@ from enemies import Enemy
 import time
 
 
-class AirPlaneBullet(Object):
+class Bullet(Object):
     char = '*'
     color = 'red'
     _moving = True
@@ -14,7 +14,7 @@ class AirPlaneBullet(Object):
     direction = -1
 
     def __init__(self, *args, **kwargs):
-        super(AirPlaneBullet, self).__init__(*args, **kwargs)
+        super(Bullet, self).__init__(*args, **kwargs)
         music = Audio(self.music)
         music.song.set_volume(0.25)
         music.play()
@@ -22,10 +22,16 @@ class AirPlaneBullet(Object):
     def move(self):
         self.y += self.direction
 
+
+class AirPlaneBullet(Bullet):
     def on_colision(self, obj):
         if isinstance(obj, Enemy) and obj.is_live():
             obj.kill()
             self.y = -1
+
+
+class EnemyBullet(Bullet):
+    direction = 1
 
 
 class Weapon(object):
@@ -39,6 +45,9 @@ class Weapon(object):
 
     def shot(self):
         pass
+
+    def remove(self):
+        self.airplane.weapon = None
 
 
 class BasicWeapon(Weapon):
@@ -79,3 +88,11 @@ class MultipleWeapon(Weapon):
             self.action.pause()
         else:
             self.action.start()
+
+    def remove(self):
+        self.action.stop()
+        super(MultipleWeapon, self).remove()
+
+
+class BasicEnemyWeapon(BasicWeapon):
+    bullet_class = EnemyBullet

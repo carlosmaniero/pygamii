@@ -15,12 +15,24 @@ In examples path, you will found Arkanoid.
 ![Arkanoid](https://raw.githubusercontent.com/carlosmaniero/pygamii/develop/examples/arkanoid/screenshots/arkanoid-main.png)
 ![Arkanoid](https://raw.githubusercontent.com/carlosmaniero/pygamii/develop/examples/arkanoid/screenshots/arkanoid-game.png)
 
+See this in action
+[![Arkanoid Video](http://img.youtube.com/vi/QcgN2pBfaU0/0.jpg)](http://www.youtube.com/watch?v=QcgN2pBfaU0)
+
+To run Arkanoid example, enter in your directory (examples/arkanoid) and run:
+    
+    python arkanoid.py
+
 ## Notes
 This is a alpha version, I create it using Python3 and Linux.
 Compatibility errors may occur.
 
 
 # News
+## version 0.0.1.3 - Alpha
+- Add on_create and on_destoy signals on object
+- Add gun gift on Flycombat
+- Add video of Arkanoid example (Thank you Yu-Jie Lin)
+
 ## version 0.0.1.2 - Alpha
 - Add MultipleMoveAction: For control movement
 - Fix Object.colision method

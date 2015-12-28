@@ -10,12 +10,17 @@ class Enemy(Object):
     kill_animation = False
     kill_steps = 5
     explosion_audio = Audio('songs/explosion.ogg')
+    weapon = None
 
     def __init__(self, *args, **kwargs):
         super(Enemy, self).__init__(*args, **kwargs)
         self.gift_class = get_gift()
         if self.gift_class:
             self.color = self.gift_class.color
+
+    def on_create(self):
+        from weapon import BasicEnemyWeapon
+        self.weapon = BasicEnemyWeapon(self.scene, self)
 
     def kill(self):
         if not self.kill_animation:
@@ -44,6 +49,9 @@ class Enemy(Object):
                     self.scene.add_object(gift)
         else:
             self.y += 1
+            if random.randint(0, 30) == 7:
+                if self.weapon:
+                    self.weapon.shot()
 
     def on_colision(self, obj):
         if self.scene.airplane is obj and obj.is_live():

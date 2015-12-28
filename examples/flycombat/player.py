@@ -2,7 +2,6 @@ from pygamii.objects import Object
 from pygamii.action import BaseKeyboard
 from pygamii.audio import Audio
 from weapon import BasicWeapon
-from weapon import MultipleWeapon
 import time
 
 
@@ -18,7 +17,6 @@ class Airplane(Object):
 
     def __init__(self, scene):
         self.weapon = BasicWeapon(scene, self)
-        self.weapon = MultipleWeapon(scene, self)
         self.y = scene.rows - self.height
         self.x = int((scene.cols - self.width) / 2)
         self.to_render = '\n'.join([
@@ -83,7 +81,8 @@ class Keyboard(BaseKeyboard):
         elif key == 'd':
             self.scene.airplane.right()
         elif key == ' ':
-            self.scene.airplane.weapon.shot()
+            if self.scene.airplane.weapon:
+                self.scene.airplane.weapon.shot()
         elif key == 'm':
             self.scene.music.stop()
         elif key == 'p':

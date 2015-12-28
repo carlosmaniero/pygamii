@@ -31,9 +31,11 @@ class BaseScene(object):
     def add_object(self, obj):
         obj.scene = self
         self.objects.append(obj)
+        obj.on_create()
 
     def remove_object(self, obj):
         self.objects.remove(obj)
+        obj.on_destroy()
 
     def add_action(self, action_class, *args, **kwargs):
         auto_start = True

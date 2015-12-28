@@ -43,3 +43,9 @@ class Object:
     @property
     def cords(self):
         return (self.x, self.y, self.width, self.height)
+
+    def on_create(self):
+        pass
+
+    def on_destroy(self):
+        pass
