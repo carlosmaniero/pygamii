@@ -1,0 +1,5 @@
+site_name: Pygamii
+pages:
+- Pygamii: index.md
+- Installation: install.md
+theme: readthedocs
