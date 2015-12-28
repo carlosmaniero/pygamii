@@ -30,7 +30,7 @@ Compatibility errors may occur.
 
 # News
 ## version 0.0.1.3 - Alpha
-- Add on_create and on_destoy signals on object
+- Add on_create and on_destoy signals on object and action
 - Add gun gift on Flycombat
 - Add video of Arkanoid example (Thank you Yu-Jie Lin)
 
