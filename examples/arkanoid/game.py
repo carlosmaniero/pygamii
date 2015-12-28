@@ -67,10 +67,10 @@ class Ball(Object):
     move_y = -1
     speed = 15.0
     lives = 3
-    song_colision = None
+    song_collision = None
 
     def __init__(self, *args, **kwargs):
-        self.song_colision = Audio('songs/pipe9.ogg')
+        self.song_collision = Audio('songs/pipe9.ogg')
         self.song_lose = Audio('songs/lose.ogg')
 
     def set_cursor(self, cursor):
@@ -84,17 +84,17 @@ class Ball(Object):
         self.y += self.move_y
 
         if self.y < 0:
-            self.song_colision.play()
+            self.song_collision.play()
             self.y = 1
             self.move_y = 1
 
         if self.x >= self.scene.cols:
-            self.song_colision.play()
+            self.song_collision.play()
             self.x = self.scene.cols - 1
             self.move_x = -1
 
         if self.x < 0:
-            self.song_colision.play()
+            self.song_collision.play()
             self.x = 0
             self.move_x = 1
 
@@ -108,8 +108,8 @@ class Ball(Object):
             else:
                 self.scene.stop()
 
-    def on_colision(self, obj):
-        self.song_colision.play()
+    def on_collision(self, obj):
+        self.song_collision.play()
         if isinstance(obj, Cursor):
             self.move_y = -1
             self.y -= 2

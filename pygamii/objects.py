@@ -23,13 +23,13 @@ class Object:
     def __str__(self):
         return (self.get_char() * self.width + '\n') * self.height
 
-    def colision(self, obj):
+    def collision(self, obj):
         return (
             self.x < obj.x + obj.width and self.x + self.width > obj.x and
             self.y < obj.y + obj.height and self.y + self.height > obj.y
         )
 
-    def on_colision(self, obj):
+    def on_collision(self, obj):
         pass
 
     def in_move(self):

@@ -24,7 +24,7 @@ class Bullet(Object):
 
 
 class AirPlaneBullet(Bullet):
-    def on_colision(self, obj):
+    def on_collision(self, obj):
         if isinstance(obj, Enemy) and obj.is_live():
             obj.kill()
             self.y = -1

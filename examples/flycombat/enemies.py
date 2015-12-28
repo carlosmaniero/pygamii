@@ -53,7 +53,7 @@ class Enemy(Object):
                 if self.weapon:
                     self.weapon.shot()
 
-    def on_colision(self, obj):
+    def on_collision(self, obj):
         if self.scene.airplane is obj and obj.is_live():
             self.kill()
             obj.kill()

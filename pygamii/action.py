@@ -65,8 +65,8 @@ class MoveAction(Action):
             self.obj.move()
 
             for obj in self.scene.objects:
-                if obj is not self.obj and self.obj.colision(obj):
-                    self.obj.on_colision(obj)
+                if obj is not self.obj and self.obj.collision(obj):
+                    self.obj.on_collision(obj)
 
 
 class MultipleMoveAction(Action):
@@ -83,6 +83,6 @@ class MultipleMoveAction(Action):
                     obj1.move()
                     obj1.last_move = time.time()
                     for obj2 in objects:
-                        if obj1 is not obj2 and obj1.colision(obj2):
-                            obj1.on_colision(obj2)
-                            obj2.on_colision(obj1)
+                        if obj1 is not obj2 and obj1.collision(obj2):
+                            obj1.on_collision(obj2)
+                            obj2.on_collision(obj1)

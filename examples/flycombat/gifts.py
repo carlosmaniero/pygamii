@@ -16,7 +16,7 @@ class Gift(Object):
     def apply(self):
         pass
 
-    def on_colision(self, obj):
+    def on_collision(self, obj):
         if obj is self.scene.airplane:
             self.apply()
             self.is_kill = True
