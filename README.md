@@ -3,7 +3,7 @@ Pygamii is a ascii game engine, created to make games in console.
 
 # Docs:
 
-[http://pygamii.readthedocs.org/](http://pygamii.readthedocs.org/)
+[http://pygamii.readthedocs.org/en/develop/](http://pygamii.readthedocs.org/en/develop/)
 
 ## Instalation
 Clone this repository and run setup.py.
