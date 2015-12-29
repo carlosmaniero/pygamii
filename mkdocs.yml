@@ -7,5 +7,6 @@ pages:
     - 'Add Objects': 'tutorial/create_objects.md'
     - 'Actions': 'tutorial/actions.md'
     - 'Collision': 'tutorial/collision.md'
+- 'For Developers': dev.md
 theme: readthedocs
 repo_url: https://github.com/carlosmaniero/pygamii
