@@ -3,11 +3,11 @@ All objects have two methods `collision` and `on_collision`.
 
 ## Collision
 
-This check if objects is in colision with another object. This returns `True` or `False`
+This methods checks if objects is in collision with another object. This returns a boolean.
 
-## On colision
+## On collision
 
-On colision is a event method. This is called from `MoveAction` and `MultipleMoveAction` when `collision` methods returns `True`.
+On collision is a event method. This is called from `MoveAction` and `MultipleMoveAction` when `collision` methods returns `True`.
 
 
 ## Create another Object
@@ -36,11 +36,11 @@ class Scene(BaseScene):
         # ...
         # Add Wall object 
         self.wall = Wall()
-        self.add_object(self.scene.wall)
+        self.add_object(self.wall)
 
 ```
 
-## Blocking ball move in ball
+## Blocking ball move in wall
 
 Update your move methods of ball.
 
@@ -48,21 +48,21 @@ Update your move methods of ball.
 ``` py
     def up(self):
         self.y -= 1
-        if self.colision(self.scene.wall):
+        if self.collision(self.scene.wall):
             self.y += 1
 
     def down(self):
         self.y += 1
-        if self.colision(self.scene.wall):
+        if self.collision(self.scene.wall):
             self.y -= 1
 
     def left(self):
         self.x -= 1
-        if self.colision(self.scene.wall):
+        if self.collision(self.scene.wall):
             self.x += 1
 
     def right(self):
         self.x += 1
-        if self.colision(self.scene.wall):
+        if self.collision(self.scene.wall):
             self.x -= 1
 ```

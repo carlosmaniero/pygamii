@@ -1,5 +1,5 @@
-To start your project, you needs create a file called `game.py`.  
-This will contains the scene of your game. When scene is the space where your objects will be rendered.
+To start your project, you need to create a file called `game.py`.  
+This file will contains the scene of your game. Scene is the space where your objects will be rendered.
 
 ```py
 from pygamii.scene import BaseScene

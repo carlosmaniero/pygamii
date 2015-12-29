@@ -1,8 +1,8 @@
-Actions are a Thread based class. This is started by the scene and all actions have the scene atribute.
+Actions are a Thread based class. This is started by the Scene and all actions have the scene atribute.
 
-## Standart Actions:
+## Standard Actions:
 
-Se a list of standart actions (pygamii.action), to use in your project.
+See a list of standard actions (pygamii.action), to use in your project.
 
 - **`BaseKeyboard`**: This is a keyboard action.
 - **`MoveAction`**: Used to move a specific object.
@@ -13,8 +13,7 @@ Se a list of standart actions (pygamii.action), to use in your project.
 
 We will use the `BaseKeyboard` to control our ball using the keyboard.
 
-
-First, we will create the move control in our Ball
+Firstily, we will create the move methods in our Ball class.
 
 ```py
 class Ball(Object):
@@ -34,7 +33,7 @@ class Ball(Object):
 ```
 
 
-Create your `actions.py` file with the content:
+Create your `actions.py` file with this content:
 
 
 ```py
@@ -72,11 +71,12 @@ class Scene(BaseScene):
         self.add_action(Keyboard)
 ```
 
-Now, we can controll the ball with the keyboard.
+Now, we can controll the ball with the keyboard using the keys (`w`, `a`, `s`, `d`) and quit the game on `q` key is pressed;
 
 ---
 
-**Note**: 
-The `add_action`, possibly will be changed to be used like Objects (Passing a instance) in the beta version. 
-So, we recommend don't override the `__init__` from actions to use the scene instance, use the `on_create` method for it.  
-The `pygamii.action` will be changed to `pygamii.actions` in the beta version.
+**Note**:  
+
+- The `add_action`, possibly will be changed to be used like Objects (Passing a instance) in the beta version.  So, we recommend don't override the `__init__` from actions to use the scene instance, use the `on_create` method for it.  
+- The `pygamii.action` will be changed to `pygamii.actions` in the beta version.
+- For while pygamii don't support arrow keys.

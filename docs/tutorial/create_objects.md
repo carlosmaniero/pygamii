@@ -1,7 +1,7 @@
-To create an object, we need import the Object class inside `pygamii.objects` package.
+To create an object, import the Object class inside `pygamii.objects` package.
 We will create an object called ball, this will be contains 1x1 chars, will be red and your character will be an asterisk.
 
-Create an file called `objects.py' for it.
+Create an file called `objects.py` for it.
 
 ## Create a ball Object
 ```py
@@ -30,7 +30,7 @@ class Scene(BaseScene):
     def __init__(self, *args, **kwargs):
         super(Scene, self).__init__(*args, **kwargs)
         self.ball = Ball()
-        scene.add_object(self.ball)
+        self.add_object(self.ball)
 
 
 if __name__ == '__main__':
@@ -38,19 +38,19 @@ if __name__ == '__main__':
     scene.start()
 ```
 
-Run the `game.py` and you will see a red asterisk in the first col and first row (0, 0).
+Run the `game.py` and you will see a red asterisk in the first col and first row (0, 0) of scene.
 
 
 ## Create a custom character made object
 
-To render the object in scene, the `__str__` method is called. By default de `__str__` method is:
+To render an object in the scene, the `__str__` method is called. By default the `__str__` method is:
 
 ```py
 def __str__(self):
     return (self.get_char() * self.width + '\n') * self.height
 ```
 
-So, if we change our ball to the below:
+So, if we change our Ball class to the below:
 
 
 ```py
