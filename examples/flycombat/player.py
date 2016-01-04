@@ -2,7 +2,6 @@ from pygamii.objects import Object
 from pygamii.action import BaseKeyboard
 from pygamii.audio import Audio
 from weapon import BasicWeapon
-import time
 
 
 class Airplane(Object):
@@ -14,6 +13,8 @@ class Airplane(Object):
     kill_steps = 5
     kill_music = Audio('songs/lose.ogg')
     to_render = ''
+    _moving = True
+    speed = 5
 
     def __init__(self, scene):
         self.weapon = BasicWeapon(scene, self)
@@ -51,6 +52,7 @@ class Airplane(Object):
 
     def kill(self):
         if not self.kill_animation:
+            self.kill_steps = 5
             self.kill_animation = True
             self.lives -= 1
             self.kill_music.play()
@@ -58,16 +60,16 @@ class Airplane(Object):
             if self.lives <= 0:
                 self.scene.stop()
 
-            while self.kill_steps > 0:
-                if self.kill_steps % 2:
-                    self.color = 'red'
-                else:
-                    self.color = 'white'
-                self.kill_steps -= 1
-                time.sleep(0.25)
-            self.color = 'green'
-            self.kill_steps = 5
-            self.kill_animation = False
+    def move(self):
+        if self.kill_animation:
+            if self.kill_steps % 2:
+                self.color = 'red'
+            else:
+                self.color = 'white'
+            self.kill_steps -= 1
+            if self.kill_steps == 0:
+                self.color = 'green'
+                self.kill_animation = False
 
 
 class Keyboard(BaseKeyboard):

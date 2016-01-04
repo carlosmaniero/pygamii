@@ -33,6 +33,11 @@ class AirPlaneBullet(Bullet):
 class EnemyBullet(Bullet):
     direction = 1
 
+    def on_collision(self, obj):
+        if obj is self.scene.airplane:
+            self.scene.airplane.kill()
+            self.is_kill = True
+
 
 class Weapon(object):
     bullet_class = AirPlaneBullet

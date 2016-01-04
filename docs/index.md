@@ -1,4 +1,4 @@
-# Welcome to Pygamii
+![Logo Pygamii](img/logo.png)
 
 Pygamii is a ascii game engine, created to make games in console.
 

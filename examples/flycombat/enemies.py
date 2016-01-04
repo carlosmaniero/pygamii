@@ -3,6 +3,7 @@ from pygamii.action import Action
 from pygamii.audio import Audio
 from gifts import get_gift
 import random
+import math
 
 
 class Enemy(Object):
@@ -11,6 +12,8 @@ class Enemy(Object):
     kill_steps = 5
     explosion_audio = Audio('songs/explosion.ogg')
     weapon = None
+    _moving = True
+    random_shot = 30
 
     def __init__(self, *args, **kwargs):
         super(Enemy, self).__init__(*args, **kwargs)
@@ -48,8 +51,7 @@ class Enemy(Object):
                     gift.y = self.y
                     self.scene.add_object(gift)
         else:
-            self.y += 1
-            if random.randint(0, 30) == 7:
+            if random.randint(0, self.random_shot) == 7:
                 if self.weapon:
                     self.weapon.shot()
 
@@ -65,7 +67,6 @@ class SimpleAirplaneEnemy(Enemy):
     width = 5
     color = 'yellow'
     speed = 5
-    _moving = True
     to_render = '\n'.join([
         ' ▄▄▄ ',
         '  █  ',
@@ -76,6 +77,59 @@ class SimpleAirplaneEnemy(Enemy):
     def __str__(self):
         return self.to_render
 
+    def move(self):
+        super(SimpleAirplaneEnemy, self).move()
+        self.y += 1
+
+
+class HelicopterEnemy(Enemy):
+    y = 5
+    height = 4
+    width = 11
+    speed = 100
+    color = 'grey'
+    i = 0
+    random_shot = 150
+    y = -2
+    _y = -2
+    to_right = to_render = '\n'.join([
+        '     ▀▀█▀▀ ',
+        '▀█▀  ▃▀▀▀▃ ',
+        ' ▀████████◗',
+        '      ▀▀▀  '
+    ])
+    to_left = '\n'.join([
+        '  ▀▀█▀▀     ',
+        '  ▃▀▀▀▃  ▀█▀',
+        ' ◖████████▀ ',
+        '   ▀▀▀      ',
+    ])
+
+    def __str__(self):
+        return self.to_render
+
+    def on_create(self):
+        super(HelicopterEnemy, self).on_create()
+        if random.randint(1, 2) == 1:
+            self.to_render = self.to_left
+
+    def move(self):
+        super(HelicopterEnemy, self).move()
+        self.y = int(self._y + 2 * math.sin(self.i))
+        self.i += 0.1
+        if int(self.i * 10) % 5 == 0:
+            if self.to_right == self.to_render:
+                self.x += 1
+                if self.x == self.scene.cols - self.width - 1:
+                    self.to_render = self.to_left
+            else:
+                self.x -= 1
+                if self.x == 0:
+                    self.to_render = self.to_right
+
+        if int(self.i * 10) % 50 == 0:
+            self._y += 1
+
 
 class EnemyGenerator(Action):
     interval = 3
@@ -84,8 +138,17 @@ class EnemyGenerator(Action):
         super(EnemyGenerator, self).__init__(scene, *args, **kwargs)
 
     def do(self):
-        airplane = SimpleAirplaneEnemy()
+        klass = SimpleAirplaneEnemy
+        if self.scene.score.points > 50:
+            klass = random.choice([
+                SimpleAirplaneEnemy,
+                SimpleAirplaneEnemy,
+                HelicopterEnemy
+            ])
+
+        airplane = klass()
         airplane.x = random.randrange(0, self.scene.cols - airplane.width)
+
         self.scene.add_object(airplane)
 
     def stop(self):
