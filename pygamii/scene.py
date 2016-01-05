@@ -1,8 +1,8 @@
 # coding: utf-8
 from __future__ import unicode_literals
-import os
 import time
 from termcolor import colored
+from pygamii.utils import get_terminal_size
 
 
 class BaseScene(object):
@@ -56,14 +56,11 @@ class BaseScene(object):
         action.on_destroy()
 
     def clean(self):
-        os.system('cls' if os.name == 'nt' else 'clear')
+        total_cols, total_rows = self.get_terminal_size()
+        print(' ' * total_cols * total_rows)
 
     def get_terminal_size(self):
-        # TODO: compatibility
-        row, col = os.popen('stty size', 'r').read().split()
-        row = int(row)
-        col = int(col)
-        return row, col
+        return get_terminal_size()
 
     def render(self):
         screen_len = self.rows * self.cols
@@ -72,7 +69,7 @@ class BaseScene(object):
         else:
             screen = [self.char] * screen_len
 
-        total_rows, total_cols = self.get_terminal_size()
+        total_cols, total_rows = self.get_terminal_size()
 
         for obj in self.objects:
             lines = str(obj).split('\n')
@@ -93,7 +90,11 @@ class BaseScene(object):
             to_print += char
             if i % self.cols == 0 and total_cols > self.cols:
                 to_print += self.blank_char * (total_cols - self.cols)
-        self.clean()
+
+        if self.rows < total_rows:
+            extra_rows = total_rows - self.rows - 1
+            to_print += self.blank_char * total_cols * extra_rows
+
         print(to_print)
 
     def start(self):
