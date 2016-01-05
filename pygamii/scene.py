@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 import time
 from termcolor import colored
 from pygamii.utils import get_terminal_size
+from colorama import init as color_init
+color_init()
 
 
 class BaseScene(object):
