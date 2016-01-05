@@ -101,10 +101,10 @@ class BaseScene(object):
             extra_rows = total_rows - self.rows - 1
             to_print += self.blank_char * total_cols * extra_rows
 
-        print(to_print)
-
         if current_os == 'Windows':
             os.system('cls')
+
+        print(to_print)
 
     def start(self):
         first = True
