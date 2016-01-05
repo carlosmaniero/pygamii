@@ -1,10 +1,14 @@
 # coding: utf-8
 from __future__ import unicode_literals
-import time
 from termcolor import colored
 from pygamii.utils import get_terminal_size
 from colorama import init as color_init
+import time
+import platform
+import os
+
 color_init()
+current_os = platform.system()
 
 
 class BaseScene(object):
@@ -98,6 +102,9 @@ class BaseScene(object):
             to_print += self.blank_char * total_cols * extra_rows
 
         print(to_print)
+
+        if current_os == 'Windows':
+            os.system('cls')
 
     def start(self):
         first = True
