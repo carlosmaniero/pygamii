@@ -13,19 +13,19 @@ class Keyboard(BaseKeyboard):
         super(Keyboard, self).__init__(scene, *args, **kwargs)
 
     def handler(self, key):
-        if key == 'a':
+        if key == ord('a'):
             if self.cursor.x > 0:
                 self.cursor.x -= 1
                 if not self.ball.started:
                     self.ball.x -= 1
-        elif key == 'd':
+        elif key == ord('d'):
             if self.cursor.x + self.cursor.width <= self.scene.cols - 1:
                 self.cursor.x += 1
                 if not self.ball.started:
                     self.ball.x += 1
-        elif key == ' ':
+        elif key == ord(' '):
             self.ball.started = True
-        elif key == 'q':
+        elif key == ord('q'):
             self.scene.stop()
 
 

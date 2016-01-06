@@ -1,6 +1,6 @@
 # coding: utf-8
 from __future__ import unicode_literals
-from pygamii.utils import get_terminal_size, init_colors, get_color_pair
+from pygamii.utils import init_colors, get_color_pair
 import time
 import platform
 import os
@@ -8,9 +8,14 @@ import curses
 
 stdscr = curses.initscr()
 curses.start_color()
+curses.noecho()
+curses.cbreak()
+stdscr.keypad(True)
+stdscr.nodelay(False)
+curses.flushinp()
+curses.cbreak()
 current_os = platform.system()
 
-curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
 init_colors()
 
 
@@ -65,16 +70,18 @@ class BaseScene(object):
         action.on_destroy()
 
     def clean(self):
-        total_cols, total_rows = self.get_terminal_size()
-        print(' ' * total_cols * (total_rows - 1))
+        stdscr.clear()
 
     def get_terminal_size(self):
-        return get_terminal_size()
+        x, y = stdscr.getmaxyx()
+        x, y = y, x
+        return x, y
 
     def render(self):
+        self.clean()
         screen_len = self.rows * self.cols
 
-        for i in range(self.rows):
+        for i in range(self.rows - 1):
             stdscr.addstr(i, 0, ' ' * self.cols)
 
         for obj in self.objects:
@@ -94,7 +101,7 @@ class BaseScene(object):
                         if char != ' ' or self.bg_color is not None:
                             stdscr.addstr(y, x, char, pair)
 
-        stdscr.addstr(self.rows, 0, ' ')
+        stdscr.addstr(self.rows, 0, ' ' * (self.cols - 1))
         stdscr.refresh()
 
     def start(self):
@@ -117,4 +124,3 @@ class BaseScene(object):
 
         for action in self.actions:
             action.stop()
-

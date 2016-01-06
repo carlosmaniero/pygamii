@@ -74,20 +74,20 @@ class Airplane(Object):
 
 class Keyboard(BaseKeyboard):
     def handler(self, key):
-        if key == 'w':
+        if key == ord('w'):
             self.scene.airplane.up()
-        elif key == 's':
+        elif key == ord('s'):
             self.scene.airplane.down()
-        elif key == 'a':
+        elif key == ord('a'):
             self.scene.airplane.left()
-        elif key == 'd':
+        elif key == ord('d'):
             self.scene.airplane.right()
-        elif key == ' ':
+        elif key == ord(' '):
             if self.scene.airplane.weapon:
                 self.scene.airplane.weapon.shot()
-        elif key == 'm':
+        elif key == ord('m'):
             self.scene.music.stop()
-        elif key == 'p':
+        elif key == ord('p'):
             self.scene.music.play()
-        elif key == 'q':
+        elif key == ord('q'):
             self.scene.stop()

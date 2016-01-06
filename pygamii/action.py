@@ -1,8 +1,8 @@
 # coding: utf-8
 from __future__ import unicode_literals
 import threading
-import readchar
 import time
+import readchar
 
 
 class Action(threading.Thread):
@@ -52,7 +52,8 @@ class Action(threading.Thread):
 
 class BaseKeyboard(Action):
     def do(self):
-        key = readchar.readchar()
+        # TODO: use curses.getch()
+        key = ord(readchar.readchar())
         self.handler(key)
 
     def handler(self, key):

@@ -10,9 +10,9 @@ import os
 
 class Keyboard(BaseKeyboard):
     def handler(self, key):
-        if key == ' ':
+        if key == ord(' '):
             self.scene.stop()
-        elif key == 'q':
+        elif key == ord('q'):
             self.scene.clean()
             os._exit(0)
 
