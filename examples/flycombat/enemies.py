@@ -22,8 +22,9 @@ class Enemy(Object):
             self.color = self.gift_class.color
 
     def on_create(self):
-        from weapon import BasicEnemyWeapon
+        from weapon import BasicEnemyWeapon, EnemyBoomb
         self.weapon = BasicEnemyWeapon(self.scene, self)
+        self.weapon.bullet_class = EnemyBoomb
 
     def kill(self):
         if not self.kill_animation:

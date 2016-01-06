@@ -63,7 +63,7 @@ class BaseScene(object):
 
     def clean(self):
         total_cols, total_rows = self.get_terminal_size()
-        print(' ' * total_cols * total_rows)
+        print(' ' * total_cols * (total_rows - 1))
 
     def get_terminal_size(self):
         return get_terminal_size()
@@ -101,12 +101,13 @@ class BaseScene(object):
             extra_rows = total_rows - self.rows - 1
             to_print += self.blank_char * total_cols * extra_rows
 
-        if current_os == 'Windows':
-            os.system('cls')
-
         print(to_print)
 
     def start(self):
+        if current_os == 'Windows':
+            os.system('cls')
+        else:
+            os.system('clear')
         first = True
         self.playing = True
         while self.playing:
@@ -123,4 +124,3 @@ class BaseScene(object):
         for action in self.actions:
             action.stop()
 
-        #self.clean()

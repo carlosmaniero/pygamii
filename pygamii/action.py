@@ -15,11 +15,16 @@ class Action(threading.Thread):
         super(Action, self).__init__(*args, **kwargs)
 
     def run(self):
-        while self.running:
-            if not self.paused:
-                self.do()
-            if self.interval:
-                time.sleep(self.interval)
+        try:
+            while self.running:
+                if not self.paused:
+                    self.do()
+                if self.interval:
+                    time.sleep(self.interval)
+        except Exception as e:
+            print(e)
+            import os
+            os._exit(0)
 
     def stop(self):
         self.running = False

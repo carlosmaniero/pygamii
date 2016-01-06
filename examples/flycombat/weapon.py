@@ -39,6 +39,19 @@ class EnemyBullet(Bullet):
             self.is_kill = True
 
 
+class EnemyBoomb(EnemyBullet):
+    width = 3
+    height = 4
+    to_render = '\n'.join([
+        '█ █',
+        '███',
+        ' █ '
+    ])
+
+    def __str__(self):
+        return self.to_render
+
+
 class Weapon(object):
     bullet_class = AirPlaneBullet
     delay = 0.10
