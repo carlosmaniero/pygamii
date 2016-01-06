@@ -1,14 +1,17 @@
 # coding: utf-8
 from __future__ import unicode_literals
-from termcolor import colored
-from pygamii.utils import get_terminal_size
-from colorama import init as color_init
+from pygamii.utils import get_terminal_size, init_colors, get_color_pair
 import time
 import platform
 import os
+import curses
 
-color_init()
+stdscr = curses.initscr()
+curses.start_color()
 current_os = platform.system()
+
+curses.init_pair(1, curses.COLOR_RED, curses.COLOR_BLACK)
+init_colors()
 
 
 class BaseScene(object):
@@ -18,8 +21,8 @@ class BaseScene(object):
     cols = 80
     blank_char = ' '
     char = ' '
-    color = None
-    bg_color = None
+    color = 'white'
+    bg_color = 'black'
     playing = False
     objects = []
     actions = []
@@ -70,12 +73,9 @@ class BaseScene(object):
 
     def render(self):
         screen_len = self.rows * self.cols
-        if self.color or self.bg_color:
-            screen = [colored(self.char, self.color, self.bg_color)] * screen_len
-        else:
-            screen = [self.char] * screen_len
 
-        total_cols, total_rows = self.get_terminal_size()
+        for i in range(self.rows):
+            stdscr.addstr(i, 0, ' ' * self.cols)
 
         for obj in self.objects:
             lines = str(obj).split('\n')
@@ -84,24 +84,18 @@ class BaseScene(object):
                 for j, char in enumerate(text):
                     x = obj.x + j
 
-                    if obj.color:
-                        char = colored(char, obj.color, obj.bg_color)
+                    color = obj.color or self.color
+                    bg_color = obj.bg_color or self.bg_color
+
+                    pair = get_color_pair(color, bg_color)
 
                     position = self.cols * y + x
                     if position >= 0 and position < screen_len:
-                        screen[position] = char
+                        if char != ' ' or self.bg_color is not None:
+                            stdscr.addstr(y, x, char, pair)
 
-        to_print = ''
-        for i, char in enumerate(screen, start=1):
-            to_print += char
-            if i % self.cols == 0 and total_cols > self.cols:
-                to_print += self.blank_char * (total_cols - self.cols)
-
-        if self.rows < total_rows:
-            extra_rows = total_rows - self.rows - 1
-            to_print += self.blank_char * total_cols * extra_rows
-
-        print(to_print)
+        stdscr.addstr(self.rows, 0, ' ')
+        stdscr.refresh()
 
     def start(self):
         if current_os == 'Windows':
