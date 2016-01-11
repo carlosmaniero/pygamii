@@ -62,7 +62,7 @@ Compatibility errors may occur.
 
 # TODO for 0.1 version Beta
 - Complete the Flycombat game
-    - Make an Boss
+    - Make a Boss
     - Make the splash and ending of the game.
 - Documentation Review
 
