@@ -13,7 +13,7 @@ class Enemy(Object):
     explosion_audio = Audio('songs/explosion.ogg')
     weapon = None
     _moving = True
-    random_shot = 30
+    random_shot = 15
 
     def __init__(self, *args, **kwargs):
         super(Enemy, self).__init__(*args, **kwargs)
@@ -22,9 +22,8 @@ class Enemy(Object):
             self.color = self.gift_class.color
 
     def on_create(self):
-        from weapon import BasicEnemyWeapon, EnemyBoomb
+        from weapon import BasicEnemyWeapon
         self.weapon = BasicEnemyWeapon(self.scene, self)
-        self.weapon.bullet_class = EnemyBoomb
 
     def kill(self):
         if not self.kill_animation:
@@ -52,14 +51,16 @@ class Enemy(Object):
                     gift.y = self.y
                     self.scene.add_object(gift)
         else:
-            if random.randint(0, self.random_shot) == 7:
+            distance = self.scene.airplane.y - self.y
+            if random.randint(0, self.random_shot) == 7 and distance > 20:
                 if self.weapon:
                     self.weapon.shot()
 
     def on_collision(self, obj):
-        if self.scene.airplane is obj and obj.is_live():
-            self.kill()
-            obj.kill()
+        if not self.is_kill and not self.kill_animation:
+            if self.scene.airplane is obj and obj.is_live():
+                self.kill()
+                obj.kill()
 
 
 class SimpleAirplaneEnemy(Enemy):
@@ -82,13 +83,22 @@ class SimpleAirplaneEnemy(Enemy):
         super(SimpleAirplaneEnemy, self).move()
         self.y += 1
 
+        middle_x = self.x - 3
+        if middle_x < self.scene.airplane.x:
+            self.x += 1
+        else:
+            self.x -= 1
+
+        if self.y > self.scene.rows:
+            self.kill = True
+
 
 class HelicopterEnemy(Enemy):
     y = 5
     height = 4
     width = 11
     speed = 100
-    color = 'grey'
+    color = 'CYAN'
     i = 0
     random_shot = 150
     y = -2
@@ -110,9 +120,11 @@ class HelicopterEnemy(Enemy):
         return self.to_render
 
     def on_create(self):
+        from weapon import EnemyBoomb
         super(HelicopterEnemy, self).on_create()
         if random.randint(1, 2) == 1:
             self.to_render = self.to_left
+        self.weapon.bullet_class = EnemyBoomb
 
     def move(self):
         super(HelicopterEnemy, self).move()
@@ -121,11 +133,11 @@ class HelicopterEnemy(Enemy):
         if int(self.i * 10) % 5 == 0:
             if self.to_right == self.to_render:
                 self.x += 1
-                if self.x == self.scene.cols - self.width - 1:
+                if self.x == self.scene.cols - self.width - 6:
                     self.to_render = self.to_left
             else:
                 self.x -= 1
-                if self.x == 0:
+                if self.x == 6:
                     self.to_render = self.to_right
 
         if int(self.i * 10) % 50 == 0:
@@ -135,8 +147,8 @@ class HelicopterEnemy(Enemy):
 class EnemyGenerator(Action):
     interval = 3
 
-    def __init__(self, scene, *args, **kwargs):
-        super(EnemyGenerator, self).__init__(scene, *args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super(EnemyGenerator, self).__init__(*args, **kwargs)
 
     def do(self):
         klass = SimpleAirplaneEnemy
@@ -146,9 +158,11 @@ class EnemyGenerator(Action):
                 SimpleAirplaneEnemy,
                 HelicopterEnemy
             ])
+            if self.scene.score.points > 100:
+                self.interval = 3 * 100 / self.scene.score.points
 
         airplane = klass()
-        airplane.x = random.randrange(0, self.scene.cols - airplane.width)
+        airplane.x = random.randrange(6, self.scene.cols - airplane.width - 6)
 
         self.scene.add_object(airplane)
 

@@ -35,6 +35,12 @@ Compatibility errors may occur.
 
 
 # News
+## version 0.0.1.5 - Alpha
+- Change the BaseKeyboard action to use curses.
+- Change the add_action to use an object not a class.
+- Improviments in the PyGamii
+
+
 ## version 0.0.1.4 - Alpha
 - Change the render method to use the curses standard library.
 
@@ -56,7 +62,9 @@ Compatibility errors may occur.
 
 # TODO for 0.1 version Beta
 - Complete the Flycombat game
-- Documentation
+    - Make an Boss
+    - Make the splash and ending of the game.
+- Documentation Review
 
 
 

@@ -49,3 +49,10 @@ class Object:
 
     def on_destroy(self):
         pass
+
+
+class ToRenderMixin(object):
+    to_render = '*'
+
+    def __str__(self):
+        return self.to_render

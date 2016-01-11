@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 import threading
 import time
-import readchar
+import curses
 
 
 class Action(threading.Thread):
@@ -10,8 +10,7 @@ class Action(threading.Thread):
     running = False
     paused = False
 
-    def __init__(self, scene, *args, **kwargs):
-        self.scene = scene
+    def __init__(self, *args, **kwargs):
         super(Action, self).__init__(*args, **kwargs)
 
     def run(self):
@@ -52,18 +51,21 @@ class Action(threading.Thread):
 
 class BaseKeyboard(Action):
     def do(self):
-        # TODO: use curses.getch()
-        key = ord(readchar.readchar())
+        key = self.stdscr.getch()
         self.handler(key)
 
     def handler(self, key):
         raise NotImplementedError
 
+    def on_create(self):
+        # To handler getch and render, we need create a custom windows
+        self.stdscr = curses.newwin(0, 0, 0, 0)
+
 
 class MoveAction(Action):
-    def __init__(self, obj, scene, *args, **kwargs):
+    def __init__(self, obj, *args, **kwargs):
         self.obj = obj
-        super(MoveAction, self).__init__(scene, *args, **kwargs)
+        super(MoveAction, self).__init__(*args, **kwargs)
 
     def do(self):
         if self.obj.in_move():

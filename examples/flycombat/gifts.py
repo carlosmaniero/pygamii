@@ -70,6 +70,6 @@ gifts = [LifeGift, MultipleWeaponGift]
 
 
 def get_gift():
-    if random.randint(1, 10) == 2:
+    if random.randint(2, 2) == 2:
         return random.choice(gifts)
     return None

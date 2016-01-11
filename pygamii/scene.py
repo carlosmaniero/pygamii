@@ -11,9 +11,10 @@ curses.start_color()
 curses.noecho()
 curses.cbreak()
 stdscr.keypad(True)
-stdscr.nodelay(False)
+stdscr.nodelay(True)
 curses.flushinp()
 curses.cbreak()
+curses.curs_set(0)
 current_os = platform.system()
 
 init_colors()
@@ -51,14 +52,9 @@ class BaseScene(object):
         self.objects.remove(obj)
         obj.on_destroy()
 
-    def add_action(self, action_class, *args, **kwargs):
-        auto_start = True
-        if kwargs.get('_auto_start') is not None:
-            auto_start = kwargs.pop('_auto_start')
-
-        kwargs['scene'] = self
-        action = action_class(*args, **kwargs)
+    def add_action(self, action, auto_start=True):
         self.actions.append(action)
+        action.scene = self
 
         action.on_create()
 
@@ -79,7 +75,6 @@ class BaseScene(object):
 
     def render(self):
         self.clean()
-        screen_len = self.rows * self.cols
 
         for i in range(self.rows - 1):
             stdscr.addstr(i, 0, ' ' * self.cols)
@@ -91,14 +86,14 @@ class BaseScene(object):
                 for j, char in enumerate(text):
                     x = obj.x + j
 
+                    bg_none = obj.bg_color is None
                     color = obj.color or self.color
                     bg_color = obj.bg_color or self.bg_color
 
                     pair = get_color_pair(color, bg_color)
 
-                    position = self.cols * y + x
-                    if position >= 0 and position < screen_len:
-                        if char != ' ' or self.bg_color is not None:
+                    if x >= 0 and y >= 0 and x <= self.cols and y <= self.rows:
+                        if char != ' ' or not bg_none:
                             stdscr.addstr(y, x, char, pair)
 
         stdscr.addstr(self.rows, 0, ' ' * (self.cols - 1))

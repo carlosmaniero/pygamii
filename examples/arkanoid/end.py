@@ -32,7 +32,7 @@ class Scene(BaseScene):
 
         logo = Logo()
         self.add_object(logo)
-        self.add_action(MoveAction, logo)
+        self.add_action(MoveAction(logo))
 
     def stop(self):
         super(Scene, self).stop()

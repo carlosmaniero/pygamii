@@ -21,6 +21,13 @@ class Bullet(Object):
 
     def move(self):
         self.y += self.direction
+        if self.y < 0 or self.y > self.scene.rows:
+            self.is_kill = True
+
+    def on_colision(self, obj):
+        if isinstance(obj, Bullet):
+            self.is_kill = True
+            obj.is_kill = True
 
 
 class AirPlaneBullet(Bullet):
@@ -34,6 +41,7 @@ class EnemyBullet(Bullet):
     direction = 1
 
     def on_collision(self, obj):
+        super(EnemyBullet, self).on_colision(obj)
         if obj is self.scene.airplane:
             self.scene.airplane.kill()
             self.is_kill = True
@@ -41,11 +49,11 @@ class EnemyBullet(Bullet):
 
 class EnemyBoomb(EnemyBullet):
     width = 3
-    height = 4
+    height = 3
     to_render = '\n'.join([
-        '█ █',
+        ' ▄ ',
         '███',
-        ' █ '
+        ' ▀ ',
     ])
 
     def __str__(self):
@@ -81,10 +89,11 @@ class BasicWeapon(Weapon):
 
 
 class MultipleWeaponAction(Action):
-    interval = 0.5
+    interval = 0.10
+    shots = 100
 
-    def __init__(self, airplane, bullet_class, scene, *args, **kwargs):
-        super(MultipleWeaponAction, self).__init__(scene, *args, **kwargs)
+    def __init__(self, airplane, bullet_class, *args, **kwargs):
+        super(MultipleWeaponAction, self).__init__(*args, **kwargs)
         self.bullet_class = bullet_class
         self.airplane = airplane
 
@@ -94,12 +103,18 @@ class MultipleWeaponAction(Action):
         bullet.y = self.airplane.y
         self.scene.add_object(bullet)
         self.last_shot = time.time()
+        self.shots -= 1
+        if self.shots == 0:
+            self.stop()
+            self.airplane.weapon = BasicWeapon(self.scene, self.airplane)
+            self.scene.remove_action(self)
 
 
 class MultipleWeapon(Weapon):
     def __init__(self, scene, airplane):
         super(MultipleWeapon, self).__init__(scene, airplane)
-        self.action = MultipleWeaponAction(airplane, AirPlaneBullet, scene)
+        self.action = MultipleWeaponAction(airplane, AirPlaneBullet)
+        scene.add_action(self.action)
 
     def shot(self):
         if self.action.running and not self.action.paused:

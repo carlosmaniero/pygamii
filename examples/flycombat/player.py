@@ -43,11 +43,11 @@ class Airplane(Object):
         return not self.kill_animation and self.lives > 0
 
     def left(self):
-        if self.x > 0:
+        if self.x > 6:
             self.x -= 1
 
     def right(self):
-        if self.x < self.scene.cols - self.width:
+        if self.x < self.scene.cols - self.width - 6:
             self.x += 1
 
     def kill(self):

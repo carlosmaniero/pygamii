@@ -52,12 +52,12 @@ class Scene(BaseScene):
 
         logo = Logo()
         self.add_object(logo)
-        self.add_action(MoveAction, logo)
+        self.add_action(MoveAction(logo))
 
         help = HelpText()
         self.add_object(help)
 
-        self.add_action(Keyboard)
+        self.add_action(Keyboard())
 
     def stop(self):
         super(Scene, self).stop()

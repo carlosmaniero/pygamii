@@ -7,10 +7,10 @@ from pygamii.audio import Audio
 
 
 class Keyboard(BaseKeyboard):
-    def __init__(self, cursor, ball, scene, *args, **kwargs):
+    def __init__(self, cursor, ball, *args, **kwargs):
         self.cursor = cursor
         self.ball = ball
-        super(Keyboard, self).__init__(scene, *args, **kwargs)
+        super(Keyboard, self).__init__(*args, **kwargs)
 
     def handler(self, key):
         if key == ord('a'):
@@ -104,7 +104,8 @@ class Ball(Object):
             if self.lives:
                 self.x = self.cursor.x + int(self.cursor.width / 2)
                 self.started = False
-                self.y = 23
+                self.y = 21
+                self.move_y = -1
             else:
                 self.scene.stop()
 
@@ -134,8 +135,8 @@ class Scene(BaseScene):
         ball = Ball()
         ball.set_cursor(cursor)
 
-        self.add_action(Keyboard, cursor, ball)
-        self.add_action(MoveAction, ball)
+        self.add_action(Keyboard(cursor, ball))
+        self.add_action(MoveAction(ball))
 
         self.add_object(cursor)
         self.add_object(ball)
