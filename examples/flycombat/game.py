@@ -9,6 +9,7 @@ from walls import MoveWall
 
 class Scene(BaseScene):
     gifts = []
+    bg_color = 'blue'
 
     def __init__(self, **kwargs):
         super(Scene, self).__init__(**kwargs)

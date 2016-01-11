@@ -75,8 +75,10 @@ class BaseScene(object):
     def render(self):
         self.clean()
 
-        for i in range(self.rows - 1):
-            stdscr.addstr(i, 0, ' ' * self.cols)
+        pair = get_color_pair(self.color, self.bg_color)
+
+        for i in range(self.rows):
+            stdscr.addstr(i, 0, ' ' * self.cols, pair)
 
         for obj in self.objects:
             lines = str(obj).split('\n')

@@ -45,11 +45,14 @@ class Logo(ToRenderMixin, Object):
     def on_create(self):
         self.music = Audio('songs/intro.ogg')
         self.music.play(True)
+        self.scene.bg_color = 'blue'
 
     def on_destroy(self):
         self.music.stop()
 
     def move(self):
+        self.scene.objects.remove(self)
+        self.scene.objects.append(self)
         self.x = int(self.scene.cols / 2) - int(self.width / 2)
         y = int(self.scene.rows / 2) - int(self.height / 2)
 
