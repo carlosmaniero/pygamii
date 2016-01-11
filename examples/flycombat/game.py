@@ -40,5 +40,3 @@ class Scene(BaseScene):
     def stop(self):
         super(Scene, self).stop()
         self.music.stop()
-
-Scene().start()

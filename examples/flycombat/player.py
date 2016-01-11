@@ -2,6 +2,7 @@ from pygamii.objects import Object
 from pygamii.action import BaseKeyboard
 from pygamii.audio import Audio
 from weapon import BasicWeapon
+import settings
 
 
 class Airplane(Object):
@@ -74,13 +75,13 @@ class Airplane(Object):
 
 class Keyboard(BaseKeyboard):
     def handler(self, key):
-        if key == ord('w'):
+        if key == settings.KEY_UP:
             self.scene.airplane.up()
-        elif key == ord('s'):
+        elif key == settings.KEY_DOWN:
             self.scene.airplane.down()
-        elif key == ord('a'):
+        elif key == settings.KEY_LEFT:
             self.scene.airplane.left()
-        elif key == ord('d'):
+        elif key == settings.KEY_RIGHT:
             self.scene.airplane.right()
         elif key == ord(' '):
             if self.scene.airplane.weapon:

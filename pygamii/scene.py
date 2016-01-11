@@ -45,18 +45,17 @@ class BaseScene(object):
 
     def add_object(self, obj):
         obj.scene = self
-        self.objects.append(obj)
         obj.on_create()
+        self.objects.append(obj)
 
     def remove_object(self, obj):
         self.objects.remove(obj)
         obj.on_destroy()
 
     def add_action(self, action, auto_start=True):
-        self.actions.append(action)
         action.scene = self
-
         action.on_create()
+        self.actions.append(action)
 
         if auto_start:
             action.start()
@@ -117,5 +116,13 @@ class BaseScene(object):
     def stop(self):
         self.playing = False
 
-        for action in self.actions:
+        actions = self.actions[:]
+        for action in actions:
             action.stop()
+            self.remove_action(action)
+
+        objects = self.objects[:]
+        for obj in objects:
+            self.remove_object(obj)
+
+        stdscr.erase()

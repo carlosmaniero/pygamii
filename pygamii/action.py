@@ -60,6 +60,8 @@ class BaseKeyboard(Action):
     def on_create(self):
         # To handler getch and render, we need create a custom windows
         self.stdscr = curses.newwin(0, 0, 0, 0)
+        self.stdscr.keypad(True)
+        self.stdscr.nodelay(True)
 
 
 class MoveAction(Action):

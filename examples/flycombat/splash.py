@@ -1,38 +1,71 @@
 from pygamii.objects import Object, ToRenderMixin
-from pygamii.action import MultipleMoveAction
+from pygamii.action import MultipleMoveAction, BaseKeyboard
+from pygamii.audio import Audio
 from pygamii.scene import BaseScene
+import time
+from enemies import EnemyGenerator
+from score import Score
+from player import Airplane
+import os
+
+
+class Debug(Object):
+    def __str__(self):
+        return str(len(self.scene.objects))
+
+
+class Keyboard(BaseKeyboard):
+    def handler(self, key):
+        if key == ord(' '):
+            self.scene.stop()
+        elif key == ord('q'):
+            os._exit(0)
 
 
 class Logo(ToRenderMixin, Object):
     to_render = '\n'.join([
-        '    ________      ______                __          __ ',
-        '   / ____/ /_  __/ ____/___  ____ ___  / /_  ____ _/ /_',
-        '  / /_  / / / / / /   / __ \/ __ `__ \/ __ \/ __ `/ __/',
-        ' / __/ / / /_/ / /___/ /_/ / / / / / / /_/ / /_/ / /_  ',
-        '/_/   /_/\__, /\____/\____/_/ /_/ /_/_.___/\__,_/\__/  ',
-        '        /____/                                         ',
+        '·▄▄▄▄▄▌   ▄· ▄▌ ▄▄·       • ▌ ▄ ·. ▄▄▄▄·  ▄▄▄· ▄▄▄▄▄',
+        '▐▄▄·██•  ▐█▪██▌▐█ ▌▪▪     ·██ ▐███▪▐█ ▀█▪▐█ ▀█ •██  ',
+        '██▪ ██▪  ▐█▌▐█▪██ ▄▄ ▄█▀▄ ▐█ ▌▐▌▐█·▐█▀▀█▄▄█▀▀█  ▐█.▪',
+        '██▌.▐█▌▐▌ ▐█▀·.▐███▌▐█▌.▐▌██ ██▌▐█▌██▄▪▐█▐█ ▪▐▌ ▐█▌·',
+        '▀▀▀ .▀▀▀   ▀ • ·▀▀▀  ▀█▄▀▪▀▀  █▪▀▀▀·▀▀▀▀  ▀  ▀  ▀▀▀ ',
+        '                                                    ',
+        '              Press space to start                  '
     ])
 
     width = 55
     height = 6
     _moving = True
     red = True
-    speed = 20
+    speed = 50
     y = -6
     color = 'green'
+    enemy_started = False
+
+    def on_create(self):
+        self.music = Audio('songs/intro.ogg')
+        self.music.play(True)
+
+    def on_destroy(self):
+        self.music.stop()
 
     def move(self):
-        self.red = not self.red
         self.x = int(self.scene.cols / 2) - int(self.width / 2)
+        y = int(self.scene.rows / 2) - int(self.height / 2)
 
-        if self.y != 10:
+        if self.y != y:
             self.y += 1
         else:
+            if not self.enemy_started:
+                self.scene.add_action(EnemyGenerator())
+                self.enemy_started = True
             self.speed = 4
-            if self.red:
-                self.color = 'red'
-            else:
+            if self.color == 'red':
                 self.color = 'green'
+            elif self.color == 'green':
+                self.color = 'white'
+            else:
+                self.color = 'red'
 
 
 class PyGamii(ToRenderMixin, Object):
@@ -49,25 +82,47 @@ class PyGamii(ToRenderMixin, Object):
     height = 6
     color = 'blue'
     _moving = True
-    y = -5
-    speed = 10
-    blink = 4
+    y = -6
+    speed = 20
+    blink = 2
     cleaned = 0
+    wait = 0.25
+    started = None
+    bg_music = Audio('songs/pygamii-bg.ogg')
+
+    def on_create(self):
+        music = Audio('songs/pygamii-open.ogg')
+        music.play()
+        self.started = time.time()
+        self.bg_music.play(True)
+
+    def on_destroy(self):
+        self.bg_music.stop()
 
     def move(self):
+        if time.time() - self.started < self.wait:
+            return
         self.x = int(self.scene.cols / 2) - int(self.width / 2)
         y = int(self.scene.rows / 2) - int(self.height / 2)
 
         if y != self.y:
             self.y += 1
         elif self.blink:
+            if self.blink == 2:
+                music = Audio('songs/pygamii-blink.ogg')
+                music.play()
+
             self.speed = 5
             if self.color == 'blue':
                 self.color = 'yellow'
             else:
                 self.color = 'blue'
             self.blink -= 1
+            if self.blink == 0:
+                self.wait = 2
+                self.started = time.time()
         elif self.scene.presents.centered:
+            Audio('songs/pygamii-out.ogg').play()
             self.print_list[self.cleaned] = ''
             self.to_render = '\n'.join(self.print_list)
             if self.cleaned < len(self.print_list) - 1:
@@ -83,7 +138,7 @@ class Presents(ToRenderMixin, Object):
     width = len(to_render)
     height = 1
     _moving = True
-    speed = 40
+    speed = 150
     x = -10
     centered = False
 
@@ -111,5 +166,8 @@ class Scene(BaseScene):
         self.add_object(self.pygamii)
         self.add_object(self.presents)
 
+        self.airplane = Airplane(self)
+        self.score = Score()
+        self.add_object(Debug())
 
-Scene().start()
+        self.add_action(Keyboard())
