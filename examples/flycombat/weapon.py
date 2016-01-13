@@ -16,7 +16,7 @@ class Bullet(Object):
     def __init__(self, *args, **kwargs):
         super(Bullet, self).__init__(*args, **kwargs)
         music = Audio(self.music)
-        music.song.set_volume(0.25)
+        music.set_volume(0.25)
         music.play()
 
     def move(self):

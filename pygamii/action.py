@@ -6,7 +6,7 @@ import curses
 
 
 class Action(threading.Thread):
-    interval = 0
+    interval = 0.01
     running = False
     paused = False
 
@@ -96,3 +96,26 @@ class MultipleMoveAction(Action):
                         if obj1 is not obj2 and obj1.collision(obj2):
                             obj1.on_collision(obj2)
                             obj2.on_collision(obj1)
+
+
+class EventAction(Action):
+    _events = {}
+    triggeds = []
+
+    def register(self, event, fn):
+        self._events.setdefault(event, [])
+        self._events[event].append(fn)
+
+    def trigger(self, event, *args, **kwargs):
+        self.triggeds.append((event, args, kwargs))
+
+    def do(self):
+        triggeds = self.triggeds[:]
+        for trigger in triggeds:
+            event, args, kwargs = trigger
+            events = self._events.get(event, [])
+
+            for event in events:
+                event(*args, **kwargs)
+
+            self.triggeds.remove(trigger)

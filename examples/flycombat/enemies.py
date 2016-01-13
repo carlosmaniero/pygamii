@@ -28,7 +28,7 @@ class Enemy(Object):
     def kill(self):
         if not self.kill_animation:
             self.scene.score.points += 5
-            self.explosion_audio.song.set_volume(0.25)
+            self.explosion_audio.set_volume(0.25)
             self.explosion_audio.play()
             self.kill_animation = True
             self.speed = 10

@@ -36,12 +36,19 @@ class BaseScene(object):
     def __init__(self, **kwargs):
         self.objects = []
         self.actions = []
+        self.pair = get_color_pair(self.color, self.bg_color)
 
         for key, value in kwargs.items():
             if key not in ('objects', 'actions') and hasattr(self, key):
                 setattr(self, key, value)
             else:
                 raise Exception('Key "{}" not found'.format(key))
+
+    def change_color(self, color, bg_color=None):
+        self.color = color
+        if self.bg_color:
+            self.bg_color = self.bg_color
+        self.pair = get_color_pair(self.color, self.bg_color)
 
     def add_object(self, obj):
         obj.scene = self
@@ -51,6 +58,7 @@ class BaseScene(object):
     def remove_object(self, obj):
         self.objects.remove(obj)
         obj.on_destroy()
+        del obj
 
     def add_action(self, action, auto_start=True):
         action.scene = self
@@ -73,12 +81,8 @@ class BaseScene(object):
         return x, y
 
     def render(self):
-        self.clean()
-
-        pair = get_color_pair(self.color, self.bg_color)
-
         for i in range(self.rows):
-            stdscr.addstr(i, 0, ' ' * self.cols, pair)
+            stdscr.addstr(i, 0, ' ' * self.cols, self.pair)
 
         for obj in self.objects:
             lines = str(obj).split('\n')
