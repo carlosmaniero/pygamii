@@ -1,10 +1,13 @@
 # coding: utf-8
 from __future__ import unicode_literals
-from pygamii.utils import init_colors, get_color_pair
+from pygamii.utils import get_color_pair
 import time
 import platform
 import os
 import curses
+
+# hack to use 256 colors
+os.environ["TERM"] = "xterm-256color"
 
 stdscr = curses.initscr()
 curses.start_color()
@@ -16,8 +19,6 @@ curses.flushinp()
 curses.cbreak()
 curses.curs_set(0)
 current_os = platform.system()
-
-init_colors()
 
 
 class BaseScene(object):
@@ -91,14 +92,15 @@ class BaseScene(object):
                 for j, char in enumerate(text):
                     x = obj.x + j
 
-                    bg_none = obj.bg_color is None
-                    color = obj.color or self.color
-                    bg_color = obj.bg_color or self.bg_color
-
-                    pair = get_color_pair(color, bg_color)
-
                     if x >= 0 and y >= 0 and x <= self.cols and y <= self.rows:
+                        bg_none = obj.get_bg_color(j, i) is None
+
                         if char != ' ' or not bg_none:
+                            color = obj.get_color(j, i) or self.color
+                            bg_color = obj.get_bg_color(j, i) or self.bg_color
+
+                            pair = get_color_pair(color, bg_color)
+
                             stdscr.addstr(y, x, char, pair)
 
         stdscr.addstr(self.rows, 0, ' ' * (self.cols - 1))

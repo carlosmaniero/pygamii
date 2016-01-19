@@ -1,18 +1,25 @@
 #!/usr/bin/env python
 import curses
 
-
-def init_colors():
-    for i in range(0, curses.COLORS):
-        for j in range(0, curses.COLORS):
-            curses.init_pair(curses.COLORS * (i + 1) + j, i, j)
+pairs = {}
 
 
-def get_color_pair(fg, bg=None):
-    if bg is None:
-        bg = 'black'
+def get_color_str(color):
+    return getattr(curses, 'COLOR_{}'.format(color.upper()))
 
-    bg_index = getattr(curses, 'COLOR_{}'.format(bg.upper()))
-    fg_index = getattr(curses, 'COLOR_{}'.format(fg.upper())) + 1
 
-    return curses.color_pair(curses.COLORS * fg_index + bg_index)
+def get_color_pair(fg, bg=-1):
+
+    if isinstance(fg, str):
+        fg = get_color_str(fg)
+    if isinstance(bg, str):
+        bg = get_color_str(bg)
+
+    pair_hash = '{}_{}'.format(fg, bg)
+    if pair_hash in pairs:
+        return curses.color_pair(pairs[pair_hash])
+    else:
+        pair_hash_id = len(pairs) + 1
+        curses.init_pair(pair_hash_id, fg, bg)
+        pairs[pair_hash] = pair_hash_id
+        return get_color_pair(fg, bg)

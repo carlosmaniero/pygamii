@@ -14,6 +14,7 @@ class Enemy(Object):
     weapon = None
     _moving = True
     random_shot = 15
+    points = 5
 
     def __init__(self, *args, **kwargs):
         super(Enemy, self).__init__(*args, **kwargs)
@@ -27,7 +28,7 @@ class Enemy(Object):
 
     def kill(self):
         if not self.kill_animation:
-            self.scene.score.points += 5
+            self.scene.score.points += self.points
             self.explosion_audio.set_volume(0.25)
             self.explosion_audio.play()
             self.kill_animation = True
@@ -103,6 +104,7 @@ class HelicopterEnemy(Enemy):
     random_shot = 150
     y = -2
     _y = -2
+    points = 10
     to_right = to_render = '\n'.join([
         '     ▀▀█▀▀ ',
         '▀█▀  ▃▀▀▀▃ ',
@@ -160,6 +162,13 @@ class EnemyGenerator(Action):
             ])
             if self.scene.score.points > 100:
                 self.interval = 3 * 100 / self.scene.score.points
+            if self.scene.score.points > 200 and self.scene.boss is None:
+                from boss import Boss, Water, change_move_action
+                self.scene.events.register('boss_move_complete', change_move_action)
+                self.scene.boss = Boss()
+                self.scene.events.trigger('boss_move_complete', self.scene.boss)
+                self.scene.add_object(self.scene.boss)
+                self.scene.add_object(Water())
 
         airplane = klass()
         airplane.x = random.randrange(6, self.scene.cols - airplane.width - 6)

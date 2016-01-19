@@ -6,10 +6,24 @@ from weapon import AirPlaneBullet, EnemyBoomb
 def change_move_action(boss):
     if boss.move_method == 'go_down':
         boss.move_method = 'shooting'
+        Audio('songs/before-shot.ogg').play()
+        boss.color = 'red'
     elif boss.move_method == 'shooting':
         boss.move_method = 'go_up'
+        Audio('songs/sonar.ogg').play()
+        boss.color = 'red'
     else:
         boss.move_method = 'go_down'
+        Audio('songs/sonar.ogg').play()
+        boss.color = 'red'
+
+
+class Boom(Object):
+    char = '█'
+    color = 'white'
+
+    def on_create(self):
+        Audio('songs/final-explosion.ogg').play()
 
 
 class Water(Object):
@@ -78,13 +92,11 @@ class Boss(ToRenderMixin, Object):
             if self.height != 5:
                 self.height += 1
             else:
-                self.can_be_killed = True
-                self.times_on_up -= 1
-
                 if self.times_on_up == 0:
                     self.can_be_killed = False
                     self.scene.events.trigger('boss_move_complete', self)
                     self.times_on_up = 20
+                    self.color = 'red'
         self.counter = (self.counter + 1) % self.down_speed
 
     def shooting(self):
@@ -102,6 +114,13 @@ class Boss(ToRenderMixin, Object):
             self.scene.add_object(bullet)
 
     def move(self):
+        if self.height == 5:
+            self.can_be_killed = True
+            self.color = 167
+        else:
+            self.can_be_killed = False
+            self.color = 'red'
+
         if self.to_render == self.render_left:
             self.x += 1
             if self.x + self.width + 6 == self.scene.cols:
@@ -124,9 +143,18 @@ class Boss(ToRenderMixin, Object):
                 self.shot_interval -= 2
                 self.lives -= 1
                 self.shots = 20 * 3 - self.lives
-                Audio('songs/enemy-kill.ogg').play()
                 self.can_be_killed = False
-                self.scene.events.trigger('boss_move_complete', self)
+                self.height = 4
                 if self.lives == 0:
+                    self.scene.music.stop()
                     self.is_kill = True
+                    self.scene.stop()
+                else:
+                    self.scene.events.trigger('boss_move_complete', self)
+                    Audio('songs/explosion.ogg').play()
             obj.is_kill = True
+
+    def on_create(self):
+        self.scene.music.stop()
+        self.scene.music = Audio('songs/intro.ogg')
+        self.scene.music.play(True)

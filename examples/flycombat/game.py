@@ -5,18 +5,17 @@ from score import LiveScore, Score
 from enemies import EnemyGenerator
 from player import Airplane, Keyboard
 from walls import MoveWall
-from boss import Boss, Water, change_move_action
 
 
 class Scene(BaseScene):
     gifts = []
     bg_color = 'blue'
+    boss = None
 
     def __init__(self, **kwargs):
         super(Scene, self).__init__(**kwargs)
-        #self.events = EventAction()
-        #self.events.register('boss_move_complete', change_move_action)
-        #self.add_action(self.events)
+        self.events = EventAction()
+        self.add_action(self.events)
 
         self.cols, self.rows = self.get_terminal_size()
         self.rows -= 1
@@ -42,10 +41,6 @@ class Scene(BaseScene):
 
         self.enemy_generator = EnemyGenerator()
         self.add_action(self.enemy_generator)
-        #self.boss = Boss()
-        #self.events.trigger('boss_move_complete', self.boss)
-        #self.add_object(self.boss)
-        #self.add_object(Water())
 
     def stop(self):
         super(Scene, self).stop()

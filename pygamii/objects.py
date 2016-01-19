@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import time
 
 
-class Object:
+class Object(object):
     is_kill = False
     width = 1
     height = 1
@@ -49,6 +49,12 @@ class Object:
 
     def on_destroy(self):
         pass
+
+    def get_color(self, col, row):
+        return self.color
+
+    def get_bg_color(self, col, row):
+        return self.bg_color
 
 
 class ToRenderMixin(object):
