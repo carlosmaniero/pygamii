@@ -46,6 +46,7 @@ class Logo(ToRenderMixin, Object):
         self.music = Audio('songs/intro.ogg')
         self.music.play(True)
         self.scene.bg_color = 'blue'
+        self.scene.change_color(self.color, self.bg_color)
 
     def on_destroy(self):
         self.music.stop()
