@@ -1,5 +1,5 @@
 To install Pygamii, you will need to clone the repository from git and install.  
-We are working to provide the instalation via pip :)
+We're working to provide the instalation via pip :)
 
     $ git clone https://github.com/carlosmaniero/pygamii
     $ cd pygamii
@@ -21,8 +21,8 @@ When you need to activate the virtualenv use the bellow command:
 
 ## Audio Interface
 
-For audio interface, we use the audio module from [Pygame](http://www.pygame.org).
-To install Pygame, follow the below link:
+For audio interface, Pygamii uses the audio module from [Pygame](http://www.pygame.org).
+To install Pygame, follow the link:
 
 [http://www.pygame.org/wiki/GettingStarted](http://www.pygame.org/wiki/GettingStarted)
 

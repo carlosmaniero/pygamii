@@ -43,7 +43,7 @@ Run the `game.py` and you will see a red asterisk in the first col and first row
 
 ## Create a custom character made object
 
-To render an object in the scene, the `__str__` method is called. By default the `__str__` method is:
+To render an object in the scene, the `__str__` (`str()`) method is called. By default the `__str__` method is:
 
 ```py
 def __str__(self):
@@ -69,7 +69,7 @@ The result will be:
     *****
     *****
 
-This isn't a ball! For create a ball, we need override the `__str__` method.
+This isn't a ball! For create a ball, you will need override the `__str__` method.
 
 
 ```py

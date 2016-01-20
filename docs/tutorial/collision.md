@@ -3,11 +3,11 @@ All objects have two methods `collision` and `on_collision`.
 
 ## Collision
 
-This methods checks if objects is in collision with another object. This returns a boolean.
+This method check if objects is in collision with another object. This returns a boolean.
 
 ## On collision
 
-On collision is a event method. This is called from `MoveAction` and `MultipleMoveAction` when `collision` methods returns `True`.
+This is called from `MoveAction` and `MultipleMoveAction` when `collision` methods returns `True`.
 
 
 ## Create another Object

@@ -1,4 +1,4 @@
-To start your project, you need to create a file called `game.py`.  
+To start your project, you'll need to create a file called `game.py`.  
 This file will contains the scene of your game. Scene is the space where your objects will be rendered.
 
 ```py
@@ -17,8 +17,8 @@ if __name__ == '__main__':
 By default, scene contains 80x23 chars. 
 When 80 is the num of cols and 23 the number of rows.
 
-Now we will go the `game.py`:
+Now, you can run the `game.py`:
 
     $ python game.py
 
-You will see your console be cleaned. And a cursor in the 24 row. 
+You'll see your console be cleaned.

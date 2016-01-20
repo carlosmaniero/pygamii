@@ -1,6 +1,8 @@
 ![Logo Pygamii](img/logo.png)
 
-Pygamii is a ascii game engine, created to make games in console.
+Pygamii is an ascii game engine, created to make games in console.
+
+See in on GitHub [http://github.com/carlosmaniero/pygamii](http://github.com/carlosmaniero/pygamii)
 
 ## Example
 
