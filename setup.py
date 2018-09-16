@@ -1,7 +1,7 @@
 from setuptools import setup
 
 with open('requirements.txt') as f:
-    install_requires = f.read().strip().split('\n')
+    reqs = f.read().strip().split('\n')
 
 setup(name='pygamii',
       version='0.0.1.4',
