@@ -20,6 +20,6 @@ def get_color_pair(fg, bg=-1):
         return curses.color_pair(pairs[pair_hash])
     else:
         pair_hash_id = len(pairs) + 1
-        curses.init_pair(pair_hash_id, fg, bg)
+        curses.init_pair(pair_hash_id, int(fg), int(bg))
         pairs[pair_hash] = pair_hash_id
         return get_color_pair(fg, bg)
